@@ -39,11 +39,14 @@ export default function PointCloud() {
       }
       uploaded.current = total;
       if (geom.current) {
-        geom.current.setDrawRange(0, total);
         (geom.current.attributes.position as THREE.BufferAttribute).needsUpdate = true;
         (geom.current.attributes.color as THREE.BufferAttribute).needsUpdate = true;
       }
     }
+
+    // Draw count follows cloudDrawCount so the map rewinds during replay.
+    const drawN = Math.min(uploaded.current, Math.max(0, Math.floor(st.cloudDrawCount)));
+    if (geom.current) geom.current.setDrawRange(0, drawN);
   });
 
   return (
