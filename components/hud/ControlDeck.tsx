@@ -11,7 +11,7 @@ export default function ControlDeck() {
     <div
       style={{
         position: "absolute",
-        bottom: 16,
+        bottom: 58,
         left: "50%",
         transform: "translateX(-50%)",
         zIndex: 40,

@@ -9,6 +9,7 @@ import NodeRoster from "@/components/hud/NodeRoster";
 import EventLog from "@/components/hud/EventLog";
 import AlertBanner from "@/components/hud/AlertBanner";
 import ControlDeck from "@/components/hud/ControlDeck";
+import ReplayBar from "@/components/hud/ReplayBar";
 import TopologyGraph from "@/components/topology/TopologyGraph";
 
 // R3F canvas is browser-only.
@@ -49,11 +50,12 @@ export default function Dashboard() {
               ANCHOR-FREE RELATIVE FRAME
             </span>
           </div>
-          <div style={{ position: "absolute", inset: "34px 0 0 0" }}>
+          <div style={{ position: "absolute", inset: "34px 0 46px 0" }}>
             <SwarmCanvas />
           </div>
           <AlertBanner />
           <ControlDeck />
+          <ReplayBar />
         </section>
 
         {/* RIGHT — telemetry + topology */}
