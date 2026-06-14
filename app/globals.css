@@ -150,3 +150,60 @@ body {
 /* HUD reveal */
 .reveal { animation: reveal 0.5s ease both; }
 @keyframes reveal { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ── Resizable panel drag handles ─────────────────────────────────────── */
+.rs-handle {
+  position: relative;
+  background: transparent;
+  flex: 0 0 auto;
+  transition: background 0.15s ease;
+}
+.rs-handle::after {
+  content: "";
+  position: absolute;
+  background: var(--hair);
+  transition: all 0.15s ease;
+}
+.rs-handle[data-panel-resize-handle-enabled]:hover::after,
+.rs-handle[data-resize-handle-state="hover"]::after,
+.rs-handle[data-resize-handle-state="drag"]::after {
+  background: var(--green);
+  box-shadow: 0 0 10px rgba(57, 255, 122, 0.6);
+}
+/* horizontal group → vertical divider */
+.rs-handle-v { width: 10px; cursor: col-resize; }
+.rs-handle-v::after { top: 0; bottom: 0; left: 50%; width: 1px; transform: translateX(-0.5px); }
+.rs-handle-v::before {
+  content: "⋮";
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--green-dim);
+  font-size: 14px;
+  line-height: 1;
+  pointer-events: none;
+}
+/* vertical group → horizontal divider */
+.rs-handle-h { height: 10px; cursor: row-resize; }
+.rs-handle-h::after { left: 0; right: 0; top: 50%; height: 1px; transform: translateY(-0.5px); }
+.rs-handle-h::before {
+  content: "⋯";
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--green-dim);
+  font-size: 14px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Prose for the About / brief page */
+.prose { color: var(--text); line-height: 1.7; font-size: 14px; }
+.prose h2 { font-family: var(--font-display); color: var(--green); font-size: 18px; letter-spacing: 0.08em; margin: 28px 0 10px; text-transform: uppercase; }
+.prose h3 { font-family: var(--font-display); color: var(--text); font-size: 14px; letter-spacing: 0.06em; margin: 18px 0 6px; }
+.prose p { margin: 8px 0; color: var(--text); }
+.prose ul { margin: 8px 0 8px 20px; }
+.prose li { margin: 4px 0; }
+.prose code { font-family: var(--font-mono); color: var(--green); background: rgba(57,255,122,0.08); padding: 1px 5px; font-size: 12px; }
+.prose strong { color: var(--green); }
+.prose a { color: var(--cyan); }
