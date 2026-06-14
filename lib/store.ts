@@ -56,6 +56,10 @@ interface SwarmState {
   selectedId: string | null;
   select: (id: string | null) => void;
 
+  // Layers
+  showSectors: boolean;
+  toggleSectors: () => void;
+
   setConnected: (v: boolean, source: Source) => void;
   setMeta: (m: WorldMeta) => void;
   loadCloud: (points: [number, number, string][]) => void;
@@ -94,6 +98,9 @@ export const useSwarm = create<SwarmState>((set, get) => ({
 
   selectedId: null,
   select: (id) => set({ selectedId: id }),
+
+  showSectors: true,
+  toggleSectors: () => set((s) => ({ showSectors: !s.showSectors })),
 
   setConnected: (v, source) => set({ connected: v, source }),
   setMeta: (m) => set({ meta: m }),
