@@ -23,8 +23,10 @@ function SurvivorBloom({ s }: { s: Survivor }) {
   const ring1 = useRef<THREE.Mesh>(null);
   const ring2 = useRef<THREE.Mesh>(null);
   const light = useRef<THREE.PointLight>(null);
-  const [x, , y] = s.pos;
   const conf = s.confidence;
+  // pos = [backend_x, backend_y, height] → Three.js ground plane (x, 0.05, z)
+  const sx = s.pos[0];
+  const sy = s.pos[1];
   const color = new THREE.Color("#ffb000").lerp(new THREE.Color("#ff4a2a"), conf);
 
   useFrame((state) => {
@@ -45,7 +47,7 @@ function SurvivorBloom({ s }: { s: Survivor }) {
   });
 
   return (
-    <group position={[x, 0.05, y]}>
+    <group position={[sx, 0.05, sy]}>
       <pointLight ref={light} color={color} distance={6} intensity={3} />
       {/* hot core */}
       <mesh ref={core} position={[0, 0.4, 0]}>

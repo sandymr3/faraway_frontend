@@ -24,12 +24,11 @@ export default function AgentMesh({ id, type }: { id: string; type: "uav" | "ugv
   useFrame((state, dt) => {
     const a = useSwarm.getState().agents.find((x) => x.id === id);
     if (!a || !group.current) return;
-    const [x, , y] = a.pos_est;
-    const alt = a.pos_est[2];
+    // pos_est = [backend_x, backend_y, altitude] → Three.js (x, alt, z)
     const g = group.current;
-    g.position.x = damp(g.position.x, x, 6, dt);
-    g.position.z = damp(g.position.z, y, 6, dt);
-    g.position.y = damp(g.position.y, alt, 6, dt);
+    g.position.x = damp(g.position.x, a.pos_est[0], 6, dt);
+    g.position.z = damp(g.position.z, a.pos_est[1], 6, dt);
+    g.position.y = damp(g.position.y, a.pos_est[2], 6, dt);
     g.rotation.y = -a.yaw;
 
     const col = STATUS_COLOR[a.status] ?? "#39ff7a";
