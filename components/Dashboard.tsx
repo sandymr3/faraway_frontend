@@ -11,6 +11,7 @@ import AlertBanner from "@/components/hud/AlertBanner";
 import ControlDeck from "@/components/hud/ControlDeck";
 import ReplayBar from "@/components/hud/ReplayBar";
 import AgentDetailPanel from "@/components/hud/AgentDetailPanel";
+import LayerToggles from "@/components/hud/LayerToggles";
 import TopologyGraph from "@/components/topology/TopologyGraph";
 
 // R3F canvas is browser-only.
@@ -55,6 +56,7 @@ export default function Dashboard() {
             <SwarmCanvas />
           </div>
           <AlertBanner />
+          <LayerToggles />
           <AgentDetailPanel />
           <ControlDeck />
           <ReplayBar />
