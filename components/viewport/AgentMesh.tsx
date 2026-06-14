@@ -19,8 +19,9 @@ export default function AgentMesh({ id, type }: { id: string; type: "uav" | "ugv
   const body = useRef<THREE.MeshStandardMaterial>(null);
   const light = useRef<THREE.PointLight>(null);
   const label = useRef<any>(null);
+  const ring = useRef<THREE.Mesh>(null);
 
-  useFrame((_, dt) => {
+  useFrame((state, dt) => {
     const a = useSwarm.getState().agents.find((x) => x.id === id);
     if (!a || !group.current) return;
     const [x, , y] = a.pos_est;
@@ -40,11 +41,37 @@ export default function AgentMesh({ id, type }: { id: string; type: "uav" | "ugv
     if (light.current) light.current.color.set(col);
     if (rotors.current && a.status !== "down") rotors.current.rotation.y += dt * 30;
     if (label.current) label.current.color = col;
+
+    // Selection targeting ring.
+    const selected = useSwarm.getState().selectedId === id;
+    if (ring.current) {
+      ring.current.visible = selected;
+      if (selected) {
+        const p = 1 + 0.14 * Math.sin(state.clock.elapsedTime * 4);
+        ring.current.scale.setScalar(p);
+        ring.current.rotation.z += dt * 1.2;
+      }
+    }
   });
 
+  const onSelect = (e: any) => {
+    e.stopPropagation();
+    useSwarm.getState().select(id);
+  };
+
   return (
-    <group ref={group}>
+    <group
+      ref={group}
+      onClick={onSelect}
+      onPointerOver={(e) => { e.stopPropagation(); document.body.style.cursor = "pointer"; }}
+      onPointerOut={() => { document.body.style.cursor = "default"; }}
+    >
       <pointLight ref={light} distance={4} intensity={6} color="#39ff7a" />
+      {/* selection targeting reticle */}
+      <mesh ref={ring} rotation={[-Math.PI / 2, 0, 0]} visible={false}>
+        <torusGeometry args={[1.15, 0.05, 8, 4]} />
+        <meshBasicMaterial color="#00e5ff" transparent opacity={0.9} />
+      </mesh>
       {type === "uav" ? <Drone bodyRef={body} rotorsRef={rotors} /> : <Rover bodyRef={body} />}
       <Text
         ref={label}

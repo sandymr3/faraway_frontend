@@ -5,6 +5,7 @@ import { OrbitControls } from "@react-three/drei";
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import * as THREE from "three";
 import Scene from "./Scene";
+import { useSwarm } from "@/lib/store";
 
 export default function SwarmCanvas() {
   return (
@@ -13,6 +14,7 @@ export default function SwarmCanvas() {
       dpr={[1, 1.75]}
       gl={{ antialias: true, powerPreference: "high-performance" }}
       camera={{ position: [0, 26, 30], fov: 42, near: 0.1, far: 300 }}
+      onPointerMissed={() => useSwarm.getState().select(null)}
       onCreated={({ scene }) => {
         scene.fog = new THREE.FogExp2(0x05080a, 0.012);
       }}
