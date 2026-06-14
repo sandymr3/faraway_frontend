@@ -119,7 +119,7 @@ function Body({ agent: a, onClose }: { agent: Agent; onClose: () => void }) {
 function Sparkline({ id }: { id: string }) {
   const W = 244;
   const H = 44;
-  const hist = useSwarm.getState().history;
+  const hist = useSwarm((s) => s.history); // subscribe (tear-safe) — not getState()
   const slice = hist.slice(-120);
   const vals = slice.map((f) => {
     const ag = f.agents.find((x) => x.id === id);
