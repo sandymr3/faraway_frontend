@@ -8,6 +8,7 @@ import PointCloud from "./PointCloud";
 import Survivors from "./Survivors";
 import ConfidenceEllipses from "./ConfidenceEllipses";
 import MazeWalls from "./MazeWalls";
+import SectorOverlay from "./SectorOverlay";
 
 export default function Scene() {
   const roster = useSwarm((s) => s.meta?.roster ?? []);
@@ -33,6 +34,7 @@ export default function Scene() {
       />
 
       <MazeWalls />
+      <SectorOverlay />
       <PointCloud />
       <ConfidenceEllipses />
       <CommLinks />
