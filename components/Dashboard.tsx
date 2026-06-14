@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useSwarm } from "@/lib/store";
 import Header from "@/components/hud/Header";
 import MetricsHUD from "@/components/hud/MetricsHUD";
@@ -34,50 +35,66 @@ export default function Dashboard() {
     >
       <Header />
 
-      <div
-        style={{
-          flex: 1,
-          display: "grid",
-          gridTemplateColumns: "minmax(0, 1fr) 384px",
-          gap: 12,
-          padding: 12,
-          minHeight: 0,
-        }}
-      >
-        {/* LEFT — 3D mission viewport */}
-        <section className="panel reveal" style={{ position: "relative", overflow: "hidden" }}>
-          <div className="panel-title">
-            <span>◢ LIVE OPERATIONS · 3D MESH MIRROR</span>
-            <span className="mono" style={{ color: "var(--text-dim)", letterSpacing: "0.1em" }}>
-              ANCHOR-FREE RELATIVE FRAME
-            </span>
-          </div>
-          <div style={{ position: "absolute", inset: "34px 0 46px 0" }}>
-            <SwarmCanvas />
-          </div>
-          <AlertBanner />
-          <LayerToggles />
-          <AgentDetailPanel />
-          <ControlDeck />
-          <ReplayBar />
-        </section>
+      {/* Every panel below is drag-resizable; layout persists via autoSaveId. */}
+      <div style={{ flex: 1, minHeight: 0, padding: 12 }}>
+        <PanelGroup direction="horizontal" autoSaveId="swarmresq:cols">
+          {/* LEFT — 3D mission viewport */}
+          <Panel defaultSize={68} minSize={42}>
+            <section className="panel reveal" style={{ position: "relative", overflow: "hidden", height: "100%" }}>
+              <div className="panel-title">
+                <span>◢ LIVE OPERATIONS · 3D MESH MIRROR</span>
+                <span className="mono" style={{ color: "var(--text-dim)", letterSpacing: "0.1em" }}>
+                  ANCHOR-FREE RELATIVE FRAME
+                </span>
+              </div>
+              <div style={{ position: "absolute", inset: "34px 0 46px 0" }}>
+                <SwarmCanvas />
+              </div>
+              <AlertBanner />
+              <LayerToggles />
+              <AgentDetailPanel />
+              <ControlDeck />
+              <ReplayBar />
+            </section>
+          </Panel>
 
-        {/* RIGHT — telemetry + topology */}
-        <aside style={{ display: "flex", flexDirection: "column", gap: 12, minHeight: 0 }}>
-          <div className="panel reveal" style={{ height: 320, display: "flex", flexDirection: "column" }}>
-            <div className="panel-title">
-              <span>◢ GNN TOPOLOGY</span>
-              <ConnPill />
-            </div>
-            <div style={{ flex: 1, position: "relative" }}>
-              <TopologyGraph />
-            </div>
-          </div>
+          <PanelResizeHandle className="rs-handle rs-handle-v" />
 
-          <MetricsHUD />
-          <NodeRoster />
-          <EventLog />
-        </aside>
+          {/* RIGHT — telemetry + topology, each row independently resizable */}
+          <Panel defaultSize={32} minSize={22}>
+            <PanelGroup direction="vertical" autoSaveId="swarmresq:rows">
+              <Panel defaultSize={36} minSize={14}>
+                <div className="panel reveal" style={{ height: "100%", display: "flex", flexDirection: "column", minHeight: 0 }}>
+                  <div className="panel-title">
+                    <span>◢ GNN TOPOLOGY</span>
+                    <ConnPill />
+                  </div>
+                  <div style={{ flex: 1, position: "relative", minHeight: 0 }}>
+                    <TopologyGraph />
+                  </div>
+                </div>
+              </Panel>
+
+              <PanelResizeHandle className="rs-handle rs-handle-h" />
+
+              <Panel defaultSize={30} minSize={14}>
+                <MetricsHUD />
+              </Panel>
+
+              <PanelResizeHandle className="rs-handle rs-handle-h" />
+
+              <Panel defaultSize={20} minSize={10}>
+                <NodeRoster />
+              </Panel>
+
+              <PanelResizeHandle className="rs-handle rs-handle-h" />
+
+              <Panel defaultSize={14} minSize={8}>
+                <EventLog />
+              </Panel>
+            </PanelGroup>
+          </Panel>
+        </PanelGroup>
       </div>
     </motion.div>
   );

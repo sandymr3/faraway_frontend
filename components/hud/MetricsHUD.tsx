@@ -11,12 +11,12 @@ export default function MetricsHUD() {
   const coverage = (m?.coverage_pct ?? 0) * 100;
 
   return (
-    <div className="panel reveal">
+    <div className="panel reveal" style={{ height: "100%", display: "flex", flexDirection: "column", minHeight: 0 }}>
       <div className="panel-title">
         <span>◢ MISSION TELEMETRY</span>
         <span className="mono" style={{ color: "var(--text-dim)", fontSize: 10 }}>ZERO-GPS</span>
       </div>
-      <div style={{ padding: 12, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+      <div style={{ padding: 12, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, flex: 1, overflowY: "auto", alignContent: "start" }}>
         <Gauge
           label="LOCALIZATION ERR"
           value={`${err.toFixed(1)}`}

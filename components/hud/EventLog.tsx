@@ -6,7 +6,7 @@ export default function EventLog() {
   const log = useSwarm((s) => s.log);
 
   return (
-    <div className="panel reveal" style={{ height: 132, display: "flex", flexDirection: "column" }}>
+    <div className="panel reveal" style={{ height: "100%", display: "flex", flexDirection: "column", minHeight: 0 }}>
       <div className="panel-title">
         <span>◢ EVENT LOG</span>
         <span className="mono blink" style={{ color: "var(--green)", fontSize: 10 }}>● REC</span>

@@ -9,7 +9,7 @@ export default function NodeRoster() {
   const select = useSwarm((s) => s.select);
 
   return (
-    <div className="panel reveal" style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 120 }}>
+    <div className="panel reveal" style={{ height: "100%", display: "flex", flexDirection: "column", minHeight: 0 }}>
       <div className="panel-title">
         <span>◢ NODE ROSTER</span>
         <span className="mono" style={{ color: "var(--text-dim)", fontSize: 10 }}>{agents.length} UNITS</span>
