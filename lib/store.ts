@@ -52,6 +52,10 @@ interface SwarmState {
   history: Frame[];
   replay: { active: boolean; index: number };
 
+  // Inspection
+  selectedId: string | null;
+  select: (id: string | null) => void;
+
   setConnected: (v: boolean, source: Source) => void;
   setMeta: (m: WorldMeta) => void;
   loadCloud: (points: [number, number, string][]) => void;
@@ -87,6 +91,9 @@ export const useSwarm = create<SwarmState>((set, get) => ({
 
   history: [],
   replay: { active: false, index: 0 },
+
+  selectedId: null,
+  select: (id) => set({ selectedId: id }),
 
   setConnected: (v, source) => set({ connected: v, source }),
   setMeta: (m) => set({ meta: m }),
@@ -193,6 +200,7 @@ export const useSwarm = create<SwarmState>((set, get) => ({
       booted: false,
       history: [],
       replay: { active: false, index: 0 },
+      selectedId: null,
     }),
 
   // ---- Replay controls ------------------------------------------------ //
