@@ -5,6 +5,8 @@ import { killNode } from "@/lib/socket";
 
 export default function NodeRoster() {
   const agents = useSwarm((s) => s.agents);
+  const selectedId = useSwarm((s) => s.selectedId);
+  const select = useSwarm((s) => s.select);
 
   return (
     <div className="panel reveal" style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 120 }}>
@@ -15,9 +17,11 @@ export default function NodeRoster() {
       <div style={{ overflowY: "auto", flex: 1 }}>
         {agents.map((a) => {
           const c = a.status === "down" ? "var(--red)" : a.status === "isolated" ? "var(--amber)" : "var(--green)";
+          const isSel = selectedId === a.id;
           return (
             <div
               key={a.id}
+              onClick={() => select(isSel ? null : a.id)}
               style={{
                 display: "grid",
                 gridTemplateColumns: "14px 1fr 38px 44px 20px",
@@ -25,7 +29,10 @@ export default function NodeRoster() {
                 gap: 8,
                 padding: "6px 12px",
                 borderBottom: "1px solid rgba(57,255,122,0.06)",
+                borderLeft: isSel ? "2px solid var(--cyan)" : "2px solid transparent",
+                background: isSel ? "rgba(0,229,255,0.09)" : "transparent",
                 opacity: a.status === "down" ? 0.55 : 1,
+                cursor: "pointer",
               }}
             >
               <span className={`dot dot-${a.status}`} />
@@ -43,7 +50,7 @@ export default function NodeRoster() {
               </span>
               <button
                 title="Sever node link"
-                onClick={() => killNode(a.id)}
+                onClick={(e) => { e.stopPropagation(); killNode(a.id); }}
                 disabled={a.status === "down"}
                 style={{
                   background: "transparent",
