@@ -99,7 +99,7 @@ export const useSwarm = create<SwarmState>((set, get) => ({
   selectedId: null,
   select: (id) => set({ selectedId: id }),
 
-  showSectors: true,
+  showSectors: false,
   toggleSectors: () => set((s) => ({ showSectors: !s.showSectors })),
 
   setConnected: (v, source) => set({ connected: v, source }),
